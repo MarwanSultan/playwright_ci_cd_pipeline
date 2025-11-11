@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
-  await page.goto('https://google.com/');
   await page.goto('https://www.amazon.com/');
 
   await expect(page.getByRole('link', { name: 'Hello, sign in Account & Lists' })).toBeVisible();
