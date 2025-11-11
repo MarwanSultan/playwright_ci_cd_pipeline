@@ -1,7 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures';
 
 test('test', async ({ page }) => {
-  await page.goto('https://www.amazon.com/');
 
   await expect(page.getByRole('link', { name: 'Hello, sign in Account & Lists' })).toBeVisible();
   await page.getByRole('searchbox', { name: 'Search Amazon' }).click();
@@ -11,3 +10,4 @@ test('test', async ({ page }) => {
   await page.getByRole('button', { name: 'Go', exact: true }).click();
   await expect(page.getByRole('link', { name: 'Sponsored Ad - Sony 98 Inch' }).first()).toBeVisible();
 });
+
