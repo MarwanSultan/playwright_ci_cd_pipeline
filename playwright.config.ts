@@ -1,4 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
+import MetricsReporter from './utils/reporters/metrics-reporter';
+
+const reporters: any[] = [
+  ['list'],
+  ['html', { open: 'never' }],
+];
+
+// Only attach metrics reporter in CI (so local dev stays lightweight)
+if (process.env.CI) {
+  reporters.push([
+    new MetricsReporter({
+      pushGateway: process.env.PUSHGATEWAY_URL,
+      buildLabel: process.env.GITHUB_RUN_ID || process.env.GITHUB_RUN_NUMBER || 'ci',
+    }),
+  ]);
+}
 
 export default defineConfig({
   testDir: './tests',
@@ -6,7 +22,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 4,
-  reporter: 'html',
+  reporter: reporters,
   use: {
     trace: 'on-first-retry',
 
